@@ -1,8 +1,11 @@
 package dejss.pushupcounter
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
+import dejss.pushupcounter.DataBase.GoalSetter
 import dejss.pushupcounter.DataBase.PushOperations
 import dejss.pushupcounter.PushUpsProgress.Details
 import kotlinx.android.synthetic.main.activity_main.*
@@ -15,7 +18,10 @@ import java.util.*
  */
 class MainActivity : AppCompatActivity() {
 
-    var push_count = 0
+    private var push_count = 0
+    private var statPushGoal = 0
+    private var statPushCount = 0
+
     private val operations = PushOperations(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,6 +39,8 @@ class MainActivity : AppCompatActivity() {
         AddOne.setOnClickListener{ changeProgress(1) }
         AddTen.setOnClickListener{ changeProgress(10) }
 
+        PushUpsGoal.setOnClickListener{GoalSetter(PushUpsGoal.text.toString().toInt(),this).show()}
+
         ActionButton.text = getString(R.string.see_details)
 
         ActionButton.setOnClickListener {
@@ -45,60 +53,84 @@ class MainActivity : AppCompatActivity() {
             detailsActivity.putExtra("FullProgressPerCent", fullPrgrssPerCent)
 
             startActivity(detailsActivity)
+            overridePendingTransition(R.anim.slide_from_right, R.anim.hold)
         }
     }
 
     private fun restoreInfo(){
         val day = SimpleDateFormat("dd-MM-yyyy", Locale.US).format(Date())
+        val storage = getSharedPreferences("push_ups", Context.MODE_PRIVATE)
 
-        //check for null, if true - break
-        val push_ups = operations.readDay(day) ?: return
+        var counter = storage.getInt("goal",-1)
 
-        push_count = push_ups.count
+        Log.v("MA_goal", counter.toString())
+        //if first run
+        if(counter == -1){
+            counter = 100
+            changeTodayGoal(counter)
+            PushUpsGoal.text = counter.toString()
+            save()
+        }
+        else {
+            //check for null, if true - break
+            val push_ups = operations.readDay(day)
+            push_count = push_ups!!.count
 
-        push_up_goal.progress=push_count
+            push_up_goal.progress = push_count
 
-        PushUpsCurr.text = push_ups.count.toString()
-        PushUpsGoal.text = push_ups.goal.toString()
+            PushUpsGoal.text = push_ups.goal.toString()
+            PushUpsCurr.text = push_ups.count.toString()
+        }
+        loadStatistics()
 
-        calcProgress()
 
     }
 
-    private fun calcProgress(){
+    private fun loadStatistics(){
         val list: ArrayList<PushUp> = operations.readListDay()
-
-        var goal = 0
-        var count = 0
-
         for(i in 0 until list.size){
-            goal += list[i].goal
-            count += list[i].count
+            statPushGoal += list[i].goal
+            statPushCount += list[i].count
         }
+        calcTheStatistic()
+    }
 
-        var pre_cen = (count*100)/goal
-
-        FullPrgrssNum.text = "${count}/${goal}"
+    private fun calcTheStatistic(){
+        var pre_cen = (statPushCount *100)/ statPushGoal
+        FullPrgrssNum.text = "${statPushCount}/${statPushGoal}"
         FullPrgrssPerCent.text = "${pre_cen}%"
     }
 
     private fun changeProgress(value: Int){
+        var ini = push_count
         push_count+=value
-
         if (push_count < 0){
             push_count = 0
         }
+        statPushCount +=push_count-ini
 
         push_up_goal.progress=push_count
         PushUpsCurr.text = push_count.toString()
-
-        save(push_count)
+        save()
     }
 
-    private fun save(progress: Int){
+    private fun save(){
         val day = SimpleDateFormat("dd-MM-yyyy", Locale.US).format(Date())
-        operations.saveData(day, progress,100)
+        operations.saveData(day, push_count, PushUpsGoal.text.toString().toInt())
+        calcTheStatistic()
     }
+
+    fun changeTodayGoal(newGoal: Int){
+        val storage = getSharedPreferences("push_ups", Context.MODE_PRIVATE)
+        storage.edit().putInt("goal", newGoal).apply()
+
+        statPushGoal+=(newGoal-PushUpsGoal.text.toString().toInt())
+
+        PushUpsGoal.text = newGoal.toString()
+        save()
+    }
+
+
 
 }
 

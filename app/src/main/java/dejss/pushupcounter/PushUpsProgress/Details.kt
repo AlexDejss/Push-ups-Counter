@@ -30,6 +30,7 @@ class Details : AppCompatActivity() {
         ActionButton.text = getString(R.string.return_to_main)
         ActionButton.setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
+            overridePendingTransition(R.anim.hold_appear, R.anim.slide_in_right)
         }
 
         TrainList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
