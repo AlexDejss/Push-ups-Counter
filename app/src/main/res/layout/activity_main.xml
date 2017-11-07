@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="dejss.pushupcounter.MainActivity">
+    <RelativeLayout
+        android:id="@+id/progress_lay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ProgressBar
+            android:id="@+id/push_up_goal"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+
+            android:layout_height="match_parent"
+            android:background="@drawable/progress_bar_circle"
+            android:max="100"
+            android:progress="74"
+            android:progressDrawable="@drawable/progressbar" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+
+            android:orientation="horizontal">
+            <TextView
+                style="@style/textCounter"
+                android:textColor="@color/subtract_button"
+                android:text="74"
+                android:gravity="right"
+                android:id="@+id/curr_pushes_count" />
+
+            <TextView
+                style="@style/textCounter"
+                android:id="@+id/goal_pushes"
+                android:text="100"
+                android:textColor="#00d808"
+                android:gravity="left" />
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/notice"
+        android:padding="15dp"
+        android:text="Remember, you cannot change the count of your push ups for previous days. "
+        android:textColor="@color/progress_color" />
+
+    <LinearLayout
+        android:id="@+id/fast_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:padding="10sp">
+        <Button
+            style="@style/buttonChangeSub"
+            android:id="@+id/subtract_one"
+            android:text="-1"/>
+        <Button
+            style="@style/buttonChangeSub"
+            android:id="@+id/subtract_ten"
+            android:text="-10"/>
+        <Button
+            style="@style/buttonChangeAdd"
+            android:id="@+id/add_ten"
+            android:text="+10"/>
+        <Button
+            style="@style/buttonChangeAdd"
+            android:id="@+id/add_one"
+            android:text="+1"/>
+    </LinearLayout>
+
+</RelativeLayout>
