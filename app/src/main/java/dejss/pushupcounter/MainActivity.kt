@@ -1,9 +1,12 @@
 package dejss.pushupcounter
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import dejss.pushupcounter.DataBase.PushOperations
+import dejss.pushupcounter.PushUpsProgress.Details
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.line_statistics.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -25,10 +28,24 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun GUIaction(){
-        subtract_one.setOnClickListener({ changeProgress(-1) })
-        subtract_ten.setOnClickListener({ changeProgress(-10) })
-        add_one.setOnClickListener({ changeProgress(1) })
-        add_ten.setOnClickListener({ changeProgress(10) })
+        SubtractOne.setOnClickListener{ changeProgress(-1) }
+        SubtractTen.setOnClickListener{ changeProgress(-10) }
+        AddOne.setOnClickListener{ changeProgress(1) }
+        AddTen.setOnClickListener{ changeProgress(10) }
+
+        ActionButton.text = getString(R.string.see_details)
+
+        ActionButton.setOnClickListener {
+            val fullPrgrss = FullPrgrssNum.text
+            val fullPrgrssPerCent = FullPrgrssPerCent.text
+
+            val detailsActivity = Intent(this, Details::class.java)
+
+            detailsActivity.putExtra("FullProgress", fullPrgrss)
+            detailsActivity.putExtra("FullProgressPerCent", fullPrgrssPerCent)
+
+            startActivity(detailsActivity)
+        }
     }
 
     private fun restoreInfo(){
@@ -64,8 +81,6 @@ class MainActivity : AppCompatActivity() {
         FullPrgrssNum.text = "${count}/${goal}"
         FullPrgrssPerCent.text = "${pre_cen}%"
     }
-
-
 
     private fun changeProgress(value: Int){
         push_count+=value

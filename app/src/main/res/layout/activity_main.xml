@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="dejss.pushupcounter.MainActivity">
+    <include
+        layout="@layout/line_statistics"/>
+
     <RelativeLayout
         android:id="@+id/progress_lay"
         android:layout_width="match_parent"
@@ -43,46 +47,35 @@
 
     </RelativeLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="5sp"
-        android:orientation="horizontal">
-        <TextView
-            style="@style/statistic"
-            android:text="@string/statistics"/>
-        <TextView
-            style="@style/statistic"
-            android:text="0/100"
-            android:id="@+id/FullPrgrssNum"/>
-        <TextView
-            style="@style/statistic"
-            android:text="0%"
-            android:id="@+id/FullPrgrssPerCent"/>
-    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/fast_buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:padding="10sp">
+        android:layout_marginBottom="8dp"
+        android:padding="10sp"
+        app:layout_constraintBottom_toBottomOf="@+id/progress_lay">
+
         <Button
+            android:id="@+id/SubtractOne"
             style="@style/buttonChangeSub"
-            android:id="@+id/subtract_one"
-            android:text="-1"/>
+            android:text="-1" />
+
         <Button
+            android:id="@+id/SubtractTen"
             style="@style/buttonChangeSub"
-            android:id="@+id/subtract_ten"
-            android:text="-10"/>
+            android:text="-10" />
+
         <Button
+            android:id="@+id/AddTen"
             style="@style/buttonChangeAdd"
-            android:id="@+id/add_ten"
-            android:text="+10"/>
+            android:text="+10" />
+
         <Button
+            android:id="@+id/AddOne"
             style="@style/buttonChangeAdd"
-            android:id="@+id/add_one"
-            android:text="+1"/>
+            android:text="+1" />
     </LinearLayout>
 
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>
