@@ -38,4 +38,12 @@
         <item name="android:background">@drawable/button_fast_sub</item>
     </style>
 
+    <style name="statistic" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">18sp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">5sp</item>
+        <item name="android:textColor">@color/add_button</item>
+    </style>
+
 </resources>

@@ -28,13 +28,13 @@
             <TextView
                 style="@style/textCounter"
                 android:textColor="@color/subtract_button"
-                android:text="74"
+                android:text="0"
                 android:gravity="right"
-                android:id="@+id/curr_pushes_count" />
+                android:id="@+id/PushUpsCurr" />
 
             <TextView
                 style="@style/textCounter"
-                android:id="@+id/goal_pushes"
+                android:id="@+id/PushUpsGoal"
                 android:text="100"
                 android:textColor="#00d808"
                 android:gravity="left" />
@@ -43,13 +43,23 @@
 
     </RelativeLayout>
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/notice"
-        android:padding="15dp"
-        android:text="Remember, you cannot change the count of your push ups for previous days. "
-        android:textColor="@color/progress_color" />
+        android:padding="5sp"
+        android:orientation="horizontal">
+        <TextView
+            style="@style/statistic"
+            android:text="@string/statistics"/>
+        <TextView
+            style="@style/statistic"
+            android:text="0/100"
+            android:id="@+id/FullPrgrssNum"/>
+        <TextView
+            style="@style/statistic"
+            android:text="0%"
+            android:id="@+id/FullPrgrssPerCent"/>
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/fast_buttons"
