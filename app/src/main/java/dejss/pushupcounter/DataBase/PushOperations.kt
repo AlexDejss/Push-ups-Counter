@@ -18,7 +18,7 @@ class PushOperations(context: Context) {
         val query = "INSERT or replace INTO Push_ups (date, count, goal) VALUES('$day','$count', '$goal')"
         sql.execSQL(query)
 
-        Log.v("SQL_proc_insert", "Day - $day | Count - $count")
+        Log.v("SQL_proc_insert", "Day - $day | Count - $count | Goal - $goal")
     }
 
     fun readDay(day:String): PushUp?{
