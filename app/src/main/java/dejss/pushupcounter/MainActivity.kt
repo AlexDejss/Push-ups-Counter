@@ -18,19 +18,29 @@ import java.util.*
  */
 class MainActivity : AppCompatActivity() {
 
-    private var push_count = 0
+    private val waitTimeToSave = 5000L
+    private var pushCount = 0
     private var statPushGoal = 0
     private var statPushCount = 0
+    private var timeTillSave = 0L
+    private var changeThread = Thread{ timerBeforeSave()}
 
     private val operations = PushOperations(this)
 
+    @Override
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         GUIaction()
         restoreInfo()
+    }
 
+    @Override//TODO unchecked
+    override fun onStop() {
+        super.onStop()
+        if(changeThread.isAlive){
+            timeTillSave = waitTimeToSave
+        }
     }
 
     private fun GUIaction(){
@@ -41,7 +51,7 @@ class MainActivity : AppCompatActivity() {
 
         PushUpsGoal.setOnClickListener{GoalSetter(PushUpsGoal.text.toString().toInt(),this).show()}
 
-        ActionButton.text = getString(R.string.see_details)
+        ActionButton.text = getString(R.string.details)
 
         ActionButton.setOnClickListener {
             val fullPrgrss = FullPrgrssNum.text
@@ -60,30 +70,26 @@ class MainActivity : AppCompatActivity() {
     private fun restoreInfo(){
         val day = SimpleDateFormat("dd-MM-yyyy", Locale.US).format(Date())
         val storage = getSharedPreferences("push_ups", Context.MODE_PRIVATE)
-
-        var counter = storage.getInt("goal",-1)
-
-        Log.v("MA_goal", counter.toString())
-        //if first run
-        if(counter == -1){
-            counter = 100
-            changeTodayGoal(counter)
-            PushUpsGoal.text = counter.toString()
-            save()
+        var loadGoal = storage.getInt("goal",-1)
+        Log.v("MA_goal", loadGoal.toString())
+        //if first run TODO check 
+        if(loadGoal == -1){
+            loadGoal = 100
+            changeGoal(loadGoal)
+            PushUpsGoal.text = loadGoal.toString()
+            saveToBase()
         }
         else {
             //check for null, if true - break
             val push_ups = operations.readDay(day)
-            push_count = push_ups!!.count
+            pushCount = push_ups!!.count
 
-            push_up_goal.progress = push_count
+            push_up_goal.progress = pushCount
 
             PushUpsGoal.text = push_ups.goal.toString()
             PushUpsCurr.text = push_ups.count.toString()
         }
         loadStatistics()
-
-
     }
 
     private fun loadStatistics(){
@@ -96,41 +102,61 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun calcTheStatistic(){
-        var pre_cen = (statPushCount *100)/ statPushGoal
+        var pre_cen = (statPushCount *100)/ statPushGoal //TODO statPush is zero (BUG)
         FullPrgrssNum.text = "${statPushCount}/${statPushGoal}"
         FullPrgrssPerCent.text = "${pre_cen}%"
     }
 
     private fun changeProgress(value: Int){
-        var ini = push_count
-        push_count+=value
-        if (push_count < 0){
-            push_count = 0
+        var init = pushCount
+        pushCount += value
+        if (pushCount < 0) {
+            pushCount = 0
         }
-        statPushCount +=push_count-ini
+        statPushCount += pushCount - init
 
-        push_up_goal.progress=push_count
-        PushUpsCurr.text = push_count.toString()
-        save()
+        push_up_goal.progress = pushCount
+        PushUpsCurr.text = pushCount.toString()
+
+        startTimeToSave()
     }
 
-    private fun save(){
+    private fun saveToBase(){
         val day = SimpleDateFormat("dd-MM-yyyy", Locale.US).format(Date())
-        operations.saveData(day, push_count, PushUpsGoal.text.toString().toInt())
+        operations.saveData(day, pushCount, PushUpsGoal.text.toString().toInt())
         calcTheStatistic()
     }
 
-    fun changeTodayGoal(newGoal: Int){
+    fun changeGoal(newGoal: Int){
         val storage = getSharedPreferences("push_ups", Context.MODE_PRIVATE)
         storage.edit().putInt("goal", newGoal).apply()
 
         statPushGoal+=(newGoal-PushUpsGoal.text.toString().toInt())
 
         PushUpsGoal.text = newGoal.toString()
-        save()
+        saveToBase()
     }
 
+    //===============================
+    //      Thread work show
+    //===============================
+    private fun startTimeToSave() {
+        timeTillSave = 0
+        if (!changeThread.isAlive) {
+            changeThread.start()
+        }
+    }
 
+    private fun timerBeforeSave(){
+        val step = 100L
+        while(timeTillSave < waitTimeToSave){
+            Thread.sleep(100)
+            timeTillSave+=step
+        }
+        runOnUiThread {
+            saveToBase()
+        }
+    }
 
 }
 

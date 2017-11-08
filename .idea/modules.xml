@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/PushUpCounter2.iml" filepath="$PROJECT_DIR$/PushUpCounter2.iml" />
+      <module fileurl="file://G:\Projects\AndroidStudioProject\PushUpsCounter\PushUpCounter2.iml" filepath="G:\Projects\AndroidStudioProject\PushUpsCounter\PushUpCounter2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PushUpsCounter.iml" filepath="$PROJECT_DIR$/PushUpsCounter.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

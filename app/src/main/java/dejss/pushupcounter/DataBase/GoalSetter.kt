@@ -20,7 +20,7 @@ class GoalSetter(private val goal: Int,private val activity: MainActivity) : Dia
     }
 
     private fun saveValue(){
-        activity.changeTodayGoal(GoalTimes.text.toString().toInt())
+        activity.changeGoal(GoalTimes.text.toString().toInt())
         dismiss()
     }
 
