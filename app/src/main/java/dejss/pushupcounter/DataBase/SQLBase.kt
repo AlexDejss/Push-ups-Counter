@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper
 /**
  * Created by Dejss on 07.11.2017.
  */
-class SQLBase(context: Context) : SQLiteOpenHelper(context, "push_up_db", null, 1) {
+class SQLBase(context: Context) : SQLiteOpenHelper(context, "push_up_db", null, 2) {
     override fun onCreate(sql: SQLiteDatabase) {
         sql.execSQL("create table if not exists Push_ups (date text primary key, count integer, goal integer);")
     }

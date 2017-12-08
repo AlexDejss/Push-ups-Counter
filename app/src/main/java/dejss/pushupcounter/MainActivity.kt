@@ -114,7 +114,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadStatistics(){
-        val list: ArrayList<PushUp> = operations.readListDay()
+        val list: ArrayList<TrainPref> = operations.readListDay()
 
         Log.v("MA_load_stat", "${list.size}")
 

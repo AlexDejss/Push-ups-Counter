@@ -5,13 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import dejss.pushupcounter.PushUp
+import dejss.pushupcounter.TrainPref
 import dejss.pushupcounter.R
 
 /**
  * Created by Dejss on 05.11.2017.
  */
-class PushUpAdapter(var pushups: ArrayList<PushUp>) : RecyclerView.Adapter<PushUpAdapter.PushUpHolder>() {
+class PushUpAdapter(var pushups: ArrayList<TrainPref>) : RecyclerView.Adapter<PushUpAdapter.PushUpHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PushUpHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.line_push_up, parent, false)
