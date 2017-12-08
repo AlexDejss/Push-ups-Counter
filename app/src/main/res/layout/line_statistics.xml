@@ -8,20 +8,15 @@
         android:layout_height="wrap_content"
         android:padding="5sp"
         android:orientation="horizontal">
-        <TextView
-            style="@style/statistic"
-            android:text="@string/statistics"/>
-        <TextView
-            style="@style/statistic"
-            android:text="0/100"
-            android:id="@+id/FullPrgrssNum"/>
-        <TextView
-            style="@style/statistic"
-            android:text="0%"
-            android:id="@+id/FullPrgrssPerCent"/>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+            <TextView
+                style="@style/statistic"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/TopPanelInfoView"/>
 
             <TextView
                 style="@style/statistic"

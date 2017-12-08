@@ -17,7 +17,8 @@
             android:name=".PushUpsProgress.Details"
             android:noHistory="true" />
         <activity
-            android:name=".StartActivity">
+            android:name=".StartActivity"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

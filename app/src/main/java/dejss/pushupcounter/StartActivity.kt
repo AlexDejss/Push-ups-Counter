@@ -4,13 +4,13 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import dejss.pushupcounter.DataBase.PushOperations
+import dejss.pushupcounter.DataBase.TrainDBOperations
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
 class StartActivity : AppCompatActivity() {
-
+    //TODO create a checker of goal of previous days, if goal is 0, then set a value of day before founded.
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_start)
@@ -20,7 +20,7 @@ class StartActivity : AppCompatActivity() {
     }
 
     private fun prepareApp(){
-        val operations = PushOperations(this)
+        val operations = TrainDBOperations(this)
 
         checkBaseForDate(operations)
 
@@ -33,7 +33,7 @@ class StartActivity : AppCompatActivity() {
 
     }
 
-    private fun checkBaseForDate(operations: PushOperations){
+    private fun checkBaseForDate(operations: TrainDBOperations){
         val currentDay = SimpleDateFormat(Train.DATE_PATTERN, Locale.US).format(Date())
         val currDayPushUp = operations.readDay(currentDay)
 
@@ -65,7 +65,7 @@ class StartActivity : AppCompatActivity() {
         }
     }
 
-    private fun getCurrentDayTrain(operations: PushOperations): TrainPref?{
+    private fun getCurrentDayTrain(operations: TrainDBOperations): TrainPref?{
         val currentDay = SimpleDateFormat(Train.DATE_PATTERN, Locale.US).format(Date())
         val currDayPushUp = operations.readDay(currentDay)
         if(currDayPushUp != null){
@@ -78,12 +78,10 @@ class StartActivity : AppCompatActivity() {
 
     private fun loadMainActivity(currentDayTrain: TrainPref?){
         Log.v("PREPARE_DAY_TRAIN", currentDayTrain.toString())
-
         if(currentDayTrain != null) {
 
             val mainActivity = Intent(this, MainActivity::class.java)
 
-            mainActivity.putExtra(Train.DATE, currentDayTrain.date)
             mainActivity.putExtra(Train.COUNT, currentDayTrain.count)
             mainActivity.putExtra(Train.GOAL, currentDayTrain.goal)
 

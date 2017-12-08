@@ -5,14 +5,20 @@
     android:layout_height="match_parent"
     tools:context="dejss.pushupcounter.PushUpsProgress.Details">
 
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/WaitUtilLoadView"/>
     <include
         layout="@layout/line_statistics"
-        android:id="@+id/LineStatistics"/>
+        android:id="@+id/TopPanel"/>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/TrainList"
+        android:id="@+id/AllDaysProgressView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/LineStatistics" />
+        android:layout_below="@+id/TopPanel" />
 
 </RelativeLayout>

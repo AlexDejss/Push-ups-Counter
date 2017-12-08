@@ -9,7 +9,7 @@ import dejss.pushupcounter.TrainPref
 /**
  * Created by Dejss on 07.11.2017.
  */
-class PushOperations(context: Context) {
+class TrainDBOperations(context: Context) {
 
     private val base: SQLBase = SQLBase(context)
 
@@ -111,6 +111,5 @@ class PushOperations(context: Context) {
 
         }
     }
-
 
 }
