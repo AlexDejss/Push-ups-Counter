@@ -2,6 +2,7 @@ package dejss.pushupcounter.DataBase
 
 import android.content.Context
 import android.database.Cursor
+import android.database.SQLException
 import android.util.Log
 import dejss.pushupcounter.TrainPref
 
@@ -12,12 +13,39 @@ class PushOperations(context: Context) {
 
     private val base: SQLBase = SQLBase(context)
 
-    fun saveData(day: String, count: Int, goal: Int){
+    fun saveDay(day: String, count: Int, goal: Int){
         var sql = base.writableDatabase
         val query = "INSERT or replace INTO Push_ups (date, count, goal) VALUES('$day','$count', '$goal')"
         sql.execSQL(query)
 
-        Log.v("SQL_proc_insert", "Day - $day | Count - $count | Goal - $goal")
+        Log.v("SQL_INSERT", "Day - $day | Count - $count | Goal - $goal")
+    }
+
+    fun prepareMonth(month: ArrayList<TrainPref>): Boolean{
+        val sql = base.writableDatabase
+        sql.beginTransaction()
+
+        var savedDays = 0
+
+        try {
+            for(train in month){
+                val query = "INSERT or replace INTO Push_ups (date, count, goal) VALUES('$train.day','$train.count', '$train.goal')"
+                sql.execSQL(query)
+                savedDays++
+            }
+        }catch ( e: SQLException){
+            return false
+        }
+
+        Log.v("SQL_INSERT_MONTH", "$savedDays")
+
+        if(savedDays == month.size)
+            sql.setTransactionSuccessful()
+
+
+        sql.endTransaction()
+        return true
+
     }
 
     fun readDay(day:String): TrainPref?{
@@ -68,7 +96,5 @@ class PushOperations(context: Context) {
         return list
     }
 
-    fun prepareMonth(month: ArrayList<TrainPref>){
 
-    }
 }

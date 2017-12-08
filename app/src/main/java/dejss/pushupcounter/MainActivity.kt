@@ -84,6 +84,7 @@ class MainActivity : AppCompatActivity() {
     //      Restore info from base and SP
     //===========================================
 
+    //TODO delete it after refactoring
     private fun restoreInfo(){
         val day = SimpleDateFormat("dd-MM-yyyy", Locale.US).format(Date())
         val storage = getSharedPreferences("push_ups", Context.MODE_PRIVATE)
@@ -152,7 +153,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun saveToBase(){
         val day = SimpleDateFormat("dd-MM-yyyy", Locale.US).format(Date())
-        operations.saveData(day, pushCount, PushUpsGoal.text.toString().toInt())
+        operations.saveDay(day, pushCount, PushUpsGoal.text.toString().toInt())
     }
 
     //===============================
