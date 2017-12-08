@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <ProgressBar
-            android:id="@+id/PushUpsProgress"
+            android:id="@+id/TrainProgressBarView"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
 
@@ -34,11 +34,11 @@
                 android:textColor="@color/subtract_button"
                 android:text="0"
                 android:gravity="right"
-                android:id="@+id/PushUpsCurr" />
+                android:id="@+id/TrainProgressView" />
 
             <TextView
                 style="@style/textCounter"
-                android:id="@+id/PushUpsGoal"
+                android:id="@+id/TrainGoalView"
                 android:text="100"
                 android:textColor="#00d808"
                 android:gravity="left" />

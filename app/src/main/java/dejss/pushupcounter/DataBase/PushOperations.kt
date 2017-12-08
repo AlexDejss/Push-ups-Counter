@@ -29,7 +29,7 @@ class PushOperations(context: Context) {
 
         try {
             for(train in month){
-                val query = "INSERT or replace INTO Push_ups (date, count, goal) VALUES('$train.day','$train.count', '$train.goal')"
+                val query = "INSERT or replace INTO Push_ups (date, count, goal) VALUES('${train.date}','${train.count}', '${train.goal}')"
                 sql.execSQL(query)
                 savedDays++
             }
@@ -65,7 +65,7 @@ class PushOperations(context: Context) {
             cursor. close()
             return TrainPref(day, count, goal)
         }
-
+        Log.v("SQL_LOAD_SINGLE", "FAIL")
         cursor.close()
         return null
     }
@@ -94,6 +94,22 @@ class PushOperations(context: Context) {
         }
         cursor.close()
         return list
+    }
+
+    fun debugLoadTableInConsole(){
+        var sql = base.readableDatabase
+        val query = "SELECT * FROM Push_ups"
+        val cursor:Cursor = sql.rawQuery(query, Array<String>(0){""})
+        if(cursor.moveToFirst()){
+            do {
+                var day = cursor.getString(cursor.getColumnIndex("date"))
+                var count = cursor.getInt(cursor.getColumnIndex("count"))
+                var goal = cursor.getInt(cursor.getColumnIndex("goal"))
+                Log.v("SQL_DEBUG_TABLE", "Day - $day | Progress - $count")
+
+            }while(cursor.moveToNext())
+
+        }
     }
 
 
